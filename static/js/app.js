@@ -126,7 +126,7 @@
         if (state.gifts.length === 0) {
             emptyStateText.textContent = state.tab === 'pending'
                 ? 'Aún no hay ninguna cosita guardada, mi amor. Toca el botón + para agregar tu primer deseo.'
-                : 'Todavía no le has dado ningún regalo de esta lista, pero ya casi es momento 💗';
+                : 'Todavía no tienes ningún tesoro aquí, mi amor, pero ya casi es momento 💗';
             emptyState.classList.remove('hidden');
             return;
         }
