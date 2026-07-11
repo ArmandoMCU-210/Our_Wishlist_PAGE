@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+    <meta name="theme-color" content="#fdfbf7">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Lista de Deseos de Isela</title>
+    <meta name="description" content="Cada deseo tuyo, guardado con todo mi amor, mi vida hermosa.">
+
+    <!-- Open Graph / WhatsApp, Facebook, etc. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lista de Deseos de Isela">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:title" content="Lista de Deseos de Isela 💗">
+    <meta property="og:description" content="Cada deseo tuyo, guardado con todo mi amor, mi vida hermosa.">
+    <meta property="og:url" content="{{ request.url_root }}">
+    <meta property="og:image" content="{{ request.url_root }}static/img/og-cover.png">
+    <meta property="og:image:secure_url" content="{{ request.url_root }}static/img/og-cover.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Lista de Deseos de Isela — Cada deseo, guardado con amor">
+
+    <!-- Twitter Card (algunos clientes de mensajería la usan como respaldo) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lista de Deseos de Isela 💗">
+    <meta name="twitter:description" content="Cada deseo tuyo, guardado con todo mi amor.">
+    <meta name="twitter:image" content="{{ request.url_root }}static/img/og-cover.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='28'%3E%F0%9F%92%97%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+    <div class="welcome-screen" id="welcome-screen">
+        <div class="welcome-hearts">
+            <div class="heart">❤</div><div class="heart">❤</div><div class="heart">❤</div>
+            <div class="heart">❤</div><div class="heart">❤</div>
+        </div>
+        <div class="welcome-content fade-in">
+            <div class="welcome-icon">💌</div>
+            <h1 class="welcome-title">Para ti, mi amor</h1>
+            <p class="welcome-text">
+                <strong>Antes de abrir esta pequeña cajita de regalo, mi amor, quiero darte la bienvenida.</strong> 💝
+            </p>
+            <p class="welcome-text">
+                En esta página podrás guardar todas las cositas que te gustaría que algún día te regalara,
+                mi vida hermosa. Así podré conocer cada uno de tus deseos y, poco a poco, hacer todo lo
+                posible para que cada uno de ellos se haga realidad.
+            </p>
+            <p class="welcome-text">
+                Porque verte feliz es una de las cosas que más ilusión me hace, y cada regalo será una
+                forma de recordarte lo muchísimo que te amo. ❤️
+            </p>
+            <button class="action-btn welcome-btn" id="welcome-enter-btn">
+                <i class="fa-solid fa-heart"></i> Abrir mi cajita de regalo
+            </button>
+        </div>
+    </div>
+
+    <div class="hearts-bg">
+        <div class="heart">❤</div><div class="heart">❤</div><div class="heart">❤</div>
+        <div class="heart">❤</div><div class="heart">❤</div><div class="heart">❤</div>
+        <div class="heart">❤</div>
+    </div>
+
+    <div class="page">
+
+        <header class="page-header fade-in">
+            <h1>Lista de Deseos de Isela</h1>
+            <p class="subtitle">Todo lo que tu corazón desea, guardado aquí con todo mi amor 💕</p>
+            <p class="counter" id="gift-counter">0 regalos en tu lista</p>
+        </header>
+
+        <nav class="tabs" id="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="pending" role="tab" aria-selected="true">
+                <i class="fa-solid fa-envelope-open-text"></i> El Cofre de tus Deseos
+            </button>
+            <button class="tab-btn" data-tab="delivered" role="tab" aria-selected="false">
+                <i class="fa-solid fa-gift"></i> Tesoros que ya son tuyos
+            </button>
+        </nav>
+
+        <section class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Busca una cosita por su nombre..." autocomplete="off">
+            </div>
+            <div class="filters">
+                <select id="importance-filter">
+                    <option value="">Cualquier nivel</option>
+                    {% for level in importance_levels %}
+                    <option value="{{ level }}">{{ level }}</option>
+                    {% endfor %}
+                </select>
+                <select id="sort-select">
+                    <option value="created_desc">Más recientes primero</option>
+                    <option value="created_asc">Más antiguos primero</option>
+                    <option value="importance_desc">Mayor prioridad primero</option>
+                    <option value="importance_asc">Menor prioridad primero</option>
+                </select>
+            </div>
+        </section>
+
+        <main>
+            <div class="gifts-grid" id="gifts-grid"></div>
+            <div class="empty-state hidden" id="empty-state">
+                <i class="fa-solid fa-heart-crack"></i>
+                <p id="empty-state-text">Todavía no hay regalos por aquí.</p>
+            </div>
+            <div class="loading-state" id="loading-state">
+                <div class="spinner"></div>
+            </div>
+        </main>
+
+    </div>
+
+    <button class="fab" id="add-gift-btn" title="Agregar un regalo" aria-label="Agregar un regalo">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <!-- Modal: Crear / Editar regalo -->
+    <div class="modal hidden" id="gift-modal">
+        <div class="modal-content form-modal-content">
+            <button class="close-modal" data-close="gift-modal" aria-label="Cerrar">&times;</button>
+            <h2 id="gift-modal-title">Un nuevo deseo</h2>
+
+            <form id="gift-form" novalidate>
+                <input type="hidden" id="gift-id" value="">
+
+                <label class="image-upload" id="image-upload-label" for="gift-image">
+                    <img id="image-preview" class="hidden" alt="Vista previa">
+                    <span class="upload-placeholder" id="upload-placeholder">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Toca para elegir una fotito de esa cosita</span>
+                    </span>
+                </label>
+                <input type="file" id="gift-image" accept="image/*" hidden>
+                <p class="field-error" id="image-error"></p>
+
+                <div class="field">
+                    <label for="gift-name">¿Cómo se llama esa cosita? *</label>
+                    <input type="text" id="gift-name" maxlength="120" placeholder="Ej. Tinta Multiusos Yuya Labios Mejillas Y Ojos Yin Yang" required>
+                </div>
+
+                <div class="field">
+                    <label for="gift-description">Cuéntame un poquito más</label>
+                    <textarea id="gift-description" maxlength="500" rows="3" placeholder="Detalles, color, talla, referencia..."></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="gift-link">¿Dónde lo puedo encontrar?</label>
+                    <input type="url" id="gift-link" placeholder="https://...">
+                </div>
+
+                <div class="field">
+                    <label for="gift-store">¿En qué tienda o lugar lo viste?</label>
+                    <input type="text" id="gift-store" maxlength="120" placeholder="Ej. Sephora, Amazon, Plaza Norte...">
+                </div>
+
+                <div class="field">
+                    <label>¿Cuánto lo deseas? *</label>
+                    <div class="importance-picker" id="importance-picker">
+                        {% for level in importance_levels %}
+                        <button type="button" class="importance-option" data-value="{{ level }}">{{ level }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" data-close="gift-modal">Cancelar</button>
+                    <button type="submit" class="action-btn" id="gift-submit-btn">Guardar deseo 💕</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmar eliminación -->
+    <div class="modal hidden" id="delete-modal">
+        <div class="modal-content confirm-modal-content">
+            <i class="fa-solid fa-heart-crack confirm-icon"></i>
+            <h3>¿Seguro que quieres eliminar esta cosita?</h3>
+            <p id="delete-modal-text">Esta acción no se puede deshacer.</p>
+            <div class="form-actions">
+                <button class="btn-secondary" data-close="delete-modal">Cancelar</button>
+                <button class="btn-danger" id="confirm-delete-btn">Sí, eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Contraseña (entregado / revertir) -->
+    <div class="modal hidden" id="password-modal">
+        <div class="modal-content confirm-modal-content">
+            <i class="fa-solid fa-lock confirm-icon"></i>
+            <h3 id="password-modal-title">Confirma con tu contraseña</h3>
+            <p id="password-modal-text">Solo yo, Arman, conozco esta contraseña 🔒</p>
+            <input type="password" id="password-input" class="password-input" placeholder="Contraseña secreta" autocomplete="off">
+            <p class="field-error" id="password-error"></p>
+            <div class="form-actions">
+                <button class="btn-secondary" data-close="password-modal">Cancelar</button>
+                <button class="action-btn" id="confirm-password-btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Vista ampliada de la imagen -->
+    <div class="modal hidden" id="lightbox-modal">
+        <div class="modal-content lightbox-content">
+            <button class="close-modal" data-close="lightbox-modal" aria-label="Cerrar">&times;</button>
+            <img id="lightbox-img" src="" alt="Regalo">
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        window.IMPORTANCE_LEVELS = {{ importance_levels | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
