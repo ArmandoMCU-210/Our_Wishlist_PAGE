@@ -895,6 +895,8 @@ body.no-scroll { overflow: hidden; }
     .gifts-grid { grid-template-columns: 1fr; gap: 16px; }
     .tab-btn { font-size: 0.85rem; padding: 9px 16px; }
     .toolbar { flex-direction: column; align-items: stretch; }
+    .search-box { flex: none; width: 100%; padding: 9px 16px; }
+    .search-box input { font-size: 0.9rem; }
     .filters { justify-content: space-between; }
     .filters select { flex: 1; }
     .modal-content { padding: 24px 18px; border-radius: 16px; }
