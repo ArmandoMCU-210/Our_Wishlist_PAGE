@@ -2,6 +2,7 @@ import hmac
 import os
 from datetime import datetime, timezone
 
+import certifi
 import cloudinary
 import cloudinary.uploader
 from bson import ObjectId
@@ -15,7 +16,7 @@ load_dotenv()
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10 MB por foto
 
-client = MongoClient(os.environ["MONGO_URI"])
+client = MongoClient(os.environ["MONGO_URI"], tlsCAFile=certifi.where())
 db = client[os.environ.get("MONGO_DB_NAME", "our_wishlist")]
 gifts_col = db.gifts
 
