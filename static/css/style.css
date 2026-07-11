@@ -652,6 +652,36 @@ body.no-scroll { overflow: hidden; }
     box-shadow: 0 0 0 3px rgba(212, 165, 165, 0.15);
 }
 
+.store-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.store-input-row input { flex: 1; min-width: 0; }
+
+.map-btn {
+    flex-shrink: 0;
+    width: 46px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.map-btn:hover { background: var(--accent-strong); }
+.map-btn:active { transform: scale(0.94); }
+
+.field-hint {
+    font-size: 0.78rem;
+    color: #8a8a8a;
+    font-style: italic;
+    margin-top: 6px;
+}
+
 .image-upload {
     display: flex;
     flex-direction: column;

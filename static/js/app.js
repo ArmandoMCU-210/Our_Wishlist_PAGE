@@ -221,6 +221,16 @@
     const uploadPlaceholder = $('#upload-placeholder');
     const uploadLabel = $('#image-upload-label');
     const importancePicker = $('#importance-picker');
+    const storeInput = $('#gift-store');
+    const openMapsBtn = $('#open-maps-btn');
+
+    openMapsBtn.addEventListener('click', () => {
+        const query = storeInput.value.trim();
+        const url = query
+            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+            : 'https://www.google.com/maps';
+        window.open(url, '_blank', 'noopener,noreferrer');
+    });
 
     $('#add-gift-btn').addEventListener('click', () => openGiftModal('create'));
 

@@ -161,7 +161,13 @@
 
                 <div class="field">
                     <label for="gift-store">¿En qué tienda o lugar lo viste?</label>
-                    <input type="text" id="gift-store" maxlength="120" placeholder="Ej. Sephora, Amazon, Plaza Norte...">
+                    <div class="store-input-row">
+                        <input type="text" id="gift-store" maxlength="120" placeholder="Ej. Sephora, Amazon, Plaza Norte...">
+                        <button type="button" class="map-btn" id="open-maps-btn" title="Buscar el lugar en Google Maps" aria-label="Buscar el lugar en Google Maps">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </button>
+                    </div>
+                    <p class="field-hint">Toca el mapita para buscar el lugar en Google Maps y luego escribe aquí el nombre 📍</p>
                 </div>
 
                 <div class="field">
